@@ -21,14 +21,27 @@ namespace StudentRegister
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Student> students;
+        ObservableCollection<Student> students;
 
         public MainWindow()
         {
             InitializeComponent();
-            students = new List<Student>();
-            students.Add(new Student("Jack", "Nimble"));
-            students.Add(new Student("Mary", "Contrary"));
+            students = new ObservableCollection<Student>
+            {
+                new Student("Jack", "Nimble"),
+                new Student("Mary", "Contrary")
+            };
+
+            StudentList.ItemsSource = students;
+            SelectedStudent.Content = students;
+        }
+
+        private void AddGradeClicked(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
+            Student student = students[random.Next(0, students.Count)];
+
+            student.CourseComplete("Random Course", 3, (Grade)random.Next(0, 5), "Fall 2019");
         }
     }
 }
